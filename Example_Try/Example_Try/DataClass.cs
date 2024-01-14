@@ -26,7 +26,7 @@ namespace Example_Try
         /// </summary>
         public DataClass() 
         {
-            this.ListCode = new List<string>() { "FF", "FF", "FF","FF", "FF", "FF", "FC" };
+            this.ListCode = new List<string>() { "FF", "FF", "FF","FF", "FF", "FF", "FF", "FF", "FF", "FF", "FF", "FF", "FF", "FF", "FF", "FC" };
             this.ListByte = new List<byte>() { 100, 255, 100, 100, 100, 100, 100 };
             this.ListIDByte = new List<int>() {0,1,1,1};
             this.ListData = new List<double>() {0.0,0.1, 0.2, 0.3, 0.5,0.9,1.0};

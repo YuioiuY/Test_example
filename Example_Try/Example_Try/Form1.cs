@@ -71,11 +71,15 @@ namespace Example_Try
                 }
             };
 
+            StopTestF.Enabled = false;
+            StopTestS.Enabled = false;
+            StopTestT.Enabled = false;
+
             // run async task to check inputField
-            Task.Run(() =>
+            /*Task.Run(() =>
             {
                 ThreadCheckInput();
-            });
+            });*/
 
 
         }
@@ -123,6 +127,7 @@ namespace Example_Try
 
 
                 buttonStatus(FirstTestButton, false);
+                buttonStatus(StopTestF, true);
                 //run thread
                 Task.Run(() =>
                 {
@@ -152,6 +157,7 @@ namespace Example_Try
                 ProjectClass project = new ProjectClass(InputFieldID.Text + " Test2", randomData.RandomIDByte(ListIDByte), randomData.RandomByte(ListByte));
 
                 buttonStatus(SecondTestButton, false);
+                buttonStatus(StopTestS, true);
                 //run thread
                 Task.Run(() =>
                 {
@@ -182,6 +188,7 @@ namespace Example_Try
 
 
                 buttonStatus(ThirdTestButton, false);
+                buttonStatus(StopTestT, true);
                 //run thread
                 Task.Run(() =>
                 {
@@ -295,7 +302,6 @@ namespace Example_Try
 
                         //cheker
                         project = ErrorCheck(project);
-
                         //set error
                         if (project.error)
                             Error = true;
@@ -304,10 +310,10 @@ namespace Example_Try
                 }
                 else
                 {
-                    ChangeStatus("Test 1 " + db.ListStatus[2], 1);
                     Persent = 100;
-                    UpdateBar(progressBarTestF, Persent);
                     string text = "Первый Тест остановлен";
+                    ChangeStatus("Test 1 " + db.ListStatus[2], 1);
+                    UpdateBar(progressBarTestF, Persent);
                     CallWarning(text, "Warning Test");
                     break;
                 }
@@ -331,6 +337,7 @@ namespace Example_Try
             //clear
             ChangeStatus("", 1);
             buttonStatus(FirstTestButton, true);
+            buttonStatus(StopTestF, false);
             UpdateBar(progressBarTestF, 0);
             UpdateBarChangeColor(progressBarTestF, Color.Green);
             StopButtonFirstTest = false;
@@ -398,10 +405,10 @@ namespace Example_Try
                 }
                 else
                 {
-                    ChangeStatus("Test 2 " + db.ListStatus[2], 2);
                     Persent = 100;
+                    string text = "Второй Тест остановлен";
+                    ChangeStatus("Test 2 " + db.ListStatus[2], 2);
                     UpdateBar(progressBarTestS, Persent);
-                    string text = "Третий Тест остановлен";
                     CallWarning(text, "Warning Test");
                     break;
                 }
@@ -424,6 +431,7 @@ namespace Example_Try
             //clear
             ChangeStatus("", 2);
             buttonStatus(SecondTestButton, true);
+            buttonStatus(StopTestS, false);
             UpdateBar(progressBarTestS, 0);
             UpdateBarChangeColor(progressBarTestS, Color.Green);
             StopButtonSecondTest = false;
@@ -490,10 +498,10 @@ namespace Example_Try
                 }
                 else
                 {
-                    ChangeStatus("Test 3 " + db.ListStatus[2], 3);
                     Persent = 100;
+                    string text = "Третий Тест остановлен";
+                    ChangeStatus("Test 3 " + db.ListStatus[2], 3);
                     UpdateBar(progressBarTestT, Persent);
-                    string text = "Второй Тест остановлен";
                     CallWarning(text, "Warning Test");
                     break;
                 }
@@ -516,6 +524,7 @@ namespace Example_Try
             //clear
             ChangeStatus("" , 3);
             buttonStatus(ThirdTestButton, true);
+            buttonStatus(StopTestT, false);
             UpdateBar(progressBarTestT, 0);
             UpdateBarChangeColor(progressBarTestT, Color.Green);
             StopButtonThirdTest = false;
@@ -523,6 +532,8 @@ namespace Example_Try
 
 
         /********************************************* general *********************************************/
+
+
 
         private void UpdateBar(ProgressBar bar, int Value)
         {
@@ -534,13 +545,12 @@ namespace Example_Try
 
         private void UpdateBarChangeColor(ProgressBar bar, Color color)
         {
-            if (bar.Value > 0) 
-            {
+            
             Invoke((MethodInvoker)delegate
             {
                 bar.ForeColor = color;
             });
-            }
+            
 
         }
 
