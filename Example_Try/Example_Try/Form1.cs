@@ -534,11 +534,13 @@ namespace Example_Try
 
         private void UpdateBarChangeColor(ProgressBar bar, Color color)
         {
+            if (bar.Value > 0) 
+            {
             Invoke((MethodInvoker)delegate
             {
                 bar.ForeColor = color;
             });
-
+            }
 
         }
 
