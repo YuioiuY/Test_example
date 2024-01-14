@@ -76,10 +76,10 @@ namespace Example_Try
             StopTestT.Enabled = false;
 
             // run async task to check inputField
-            /*Task.Run(() =>
+            Task.Run(() =>
             {
                 ThreadCheckInput();
-            });*/
+            });
 
 
         }
@@ -278,6 +278,8 @@ namespace Example_Try
 
             int Persent = 0;
 
+            bool checkState = checkBox.Checked;
+
 
             while (timer.Elapsed.TotalSeconds < time)
             {
@@ -293,47 +295,49 @@ namespace Example_Try
                 }
                 ChangeStatus("Test 1 " + db.ListStatus[1] + $" {Persent}%", 1);
                 UpdateBar(progressBarTestF, Persent);
-
-                if (!StopButtonFirstTest)
-                {
-
-                    if (!Error)
+                if (checkState) 
+                { 
+                    if (!StopButtonFirstTest)
                     {
 
-                        //cheker
-                        project = ErrorCheck(project);
-                        //set error
-                        if (project.error)
-                            Error = true;
-                    }
+                        if (!Error)
+                        {
+
+                            //cheker
+                            project = ErrorCheck(project);
+                            //set error
+                            if (project.error)
+                                Error = true;
+                        }
                     
+                    }
+                    else
+                    {
+                        Persent = 100;
+                        string text = "Первый Тест остановлен";
+                        ChangeStatus("Test 1 " + db.ListStatus[2], 1);
+                        UpdateBar(progressBarTestF, Persent);
+                        CallWarning(text, "Warning Test");
+                        break;
+                    }
+                }
+            }
+
+            if (!StopButtonFirstTest)
+            {
+                if (Error)
+                {
+                    CallErrorTest(project, 1);
                 }
                 else
                 {
-                    Persent = 100;
-                    string text = "Первый Тест остановлен";
-                    ChangeStatus("Test 1 " + db.ListStatus[2], 1);
-                    UpdateBar(progressBarTestF, Persent);
-                    CallWarning(text, "Warning Test");
-                    break;
+                    ChangeStatus("Test 1 " + db.ListStatus[3], 1);
+                    //call save
+                    string text = "Успех первого теста.";
+                    CallInfo(text, project);
+
                 }
-                
             }
-
-
-            if (Error)
-            {
-                CallErrorTest(project, 1);
-            }
-            else
-            {
-                ChangeStatus("Test 1 " + db.ListStatus[3], 1);
-                //call save
-                string text = "Успех первого теста.";
-                CallInfo(text, project);
-
-            }
-
             //clear
             ChangeStatus("", 1);
             buttonStatus(FirstTestButton, true);
@@ -372,6 +376,7 @@ namespace Example_Try
 
             int Persent = 0;
 
+            bool checkState = checkBox.Checked;
 
             while (timer.Elapsed.TotalSeconds < time)
             {
@@ -387,47 +392,49 @@ namespace Example_Try
                 }
                 ChangeStatus("Test 2 " + db.ListStatus[1] + $" {Persent}%", 2);
                 UpdateBar(progressBarTestS, Persent);
-
-                if (!StopButtonSecondTest)
+                if (checkState) 
                 {
-
-                    if (!Error)
+                    if (!StopButtonSecondTest)
                     {
 
-                        //cheker
-                        project = ErrorCheck(project);
+                        if (!Error)
+                        {
 
-                        //set error
-                        if (project.error)
-                            Error = true;
+                            //cheker
+                            project = ErrorCheck(project);
+
+                            //set error
+                            if (project.error)
+                                Error = true;
+                        }
+
                     }
+                    else
+                    {
+                        Persent = 100;
+                        string text = "Второй Тест остановлен";
+                        ChangeStatus("Test 2 " + db.ListStatus[2], 2);
+                        UpdateBar(progressBarTestS, Persent);
+                        CallWarning(text, "Warning Test");
+                        break;
+                    }
+                }
+            }
 
+            if (!StopButtonFirstTest)
+            {
+                if (Error)
+                {
+                    CallErrorTest(project, 2);
                 }
                 else
                 {
-                    Persent = 100;
-                    string text = "Второй Тест остановлен";
-                    ChangeStatus("Test 2 " + db.ListStatus[2], 2);
-                    UpdateBar(progressBarTestS, Persent);
-                    CallWarning(text, "Warning Test");
-                    break;
+                    ChangeStatus("Test 2 " + db.ListStatus[3], 2);
+                    //call save
+                    string text = "Успех второго теста.";
+                    CallInfo(text, project);
                 }
-
             }
-
-
-            if (Error)
-            {
-               CallErrorTest(project, 2);
-            }
-            else
-            {
-                ChangeStatus("Test 2 " + db.ListStatus[3], 2);
-                //call save
-                string text = "Успех второго теста.";
-                CallInfo(text, project);
-            }
-
             //clear
             ChangeStatus("", 2);
             buttonStatus(SecondTestButton, true);
@@ -465,6 +472,8 @@ namespace Example_Try
 
             int Persent = 0;
 
+            bool checkState = checkBox.Checked;
+
 
             while (timer.Elapsed.TotalSeconds < time)
             {
@@ -481,46 +490,49 @@ namespace Example_Try
                 ChangeStatus("Test 3 " + db.ListStatus[1] + $" {Persent}%", 3);
                 UpdateBar(progressBarTestT, Persent);
 
-                if (!StopButtonThirdTest)
+                if (checkState)
                 {
-
-                    if (!Error)
+                    if (!StopButtonThirdTest)
                     {
 
-                        //cheker
-                        project = ErrorCheck(project);
+                        if (!Error)
+                        {
 
-                        //set error
-                        if (project.error)
-                            Error = true;
+                            //cheker
+                            project = ErrorCheck(project);
+
+                            //set error
+                            if (project.error)
+                                Error = true;
+                        }
+
                     }
+                    else
+                    {
+                        Persent = 100;
+                        string text = "Третий Тест остановлен";
+                        ChangeStatus("Test 3 " + db.ListStatus[2], 3);
+                        UpdateBar(progressBarTestT, Persent);
+                        CallWarning(text, "Warning Test");
+                        break;
+                    }
+                }
+            }
 
+            if (!StopButtonFirstTest)
+            {
+                if (Error)
+                {
+                    CallErrorTest(project, 3);
                 }
                 else
                 {
-                    Persent = 100;
-                    string text = "Третий Тест остановлен";
-                    ChangeStatus("Test 3 " + db.ListStatus[2], 3);
-                    UpdateBar(progressBarTestT, Persent);
-                    CallWarning(text, "Warning Test");
-                    break;
+                    ChangeStatus("Test 3 " + db.ListStatus[3], 3);
+                    //call save
+                    string text = "Успех третьего теста.";
+                    CallInfo(text, project);
                 }
-
             }
-
-
-            if (Error)
-            {
-                CallErrorTest(project, 3);
-            }
-            else
-            {
-                ChangeStatus("Test 3 " + db.ListStatus[3], 3);
-                //call save
-                string text = "Успех второго теста.";
-                CallInfo(text, project);
-            }
-
             //clear
             ChangeStatus("" , 3);
             buttonStatus(ThirdTestButton, true);

@@ -44,6 +44,7 @@ namespace Example_Try
             this.labelStatusTestS = new System.Windows.Forms.Label();
             this.labelStatusTestF = new System.Windows.Forms.Label();
             this.labelStatusInput = new System.Windows.Forms.Label();
+            this.checkBox = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,9 +86,9 @@ namespace Example_Try
             // 
             // InputFieldID
             // 
-            this.InputFieldID.Location = new System.Drawing.Point(30, 12);
+            this.InputFieldID.Location = new System.Drawing.Point(111, 12);
             this.InputFieldID.Name = "InputFieldID";
-            this.InputFieldID.Size = new System.Drawing.Size(319, 20);
+            this.InputFieldID.Size = new System.Drawing.Size(238, 20);
             this.InputFieldID.TabIndex = 3;
             // 
             // progressBarTestF
@@ -201,12 +202,24 @@ namespace Example_Try
             this.labelStatusInput.Size = new System.Drawing.Size(0, 13);
             this.labelStatusInput.TabIndex = 0;
             // 
+            // checkBox
+            // 
+            this.checkBox.AutoSize = true;
+            this.checkBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.checkBox.Location = new System.Drawing.Point(30, 14);
+            this.checkBox.Name = "checkBox";
+            this.checkBox.Size = new System.Drawing.Size(66, 17);
+            this.checkBox.TabIndex = 11;
+            this.checkBox.Text = "Random";
+            this.checkBox.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(756, 138);
+            this.Controls.Add(this.checkBox);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.StopTestT);
             this.Controls.Add(this.StopTestS);
@@ -245,6 +258,7 @@ namespace Example_Try
         private System.Windows.Forms.Label labelStatusTestS;
         private System.Windows.Forms.Label labelStatusTestF;
         private System.Windows.Forms.Label labelStatusInput;
+        private System.Windows.Forms.CheckBox checkBox;
     }
 }
 
