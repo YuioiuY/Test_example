@@ -131,7 +131,7 @@ namespace Example_Try
                 //run thread
                 Task.Run(() =>
                 {
-                    TestFirstStart(project);
+                    TestStart(project, progressBarTestF, FirstTestButton, StopTestF);
                 });
 
 
@@ -161,7 +161,7 @@ namespace Example_Try
                 //run thread
                 Task.Run(() =>
                 {
-                    TestSecondStart(project);
+                    TestStart(project, progressBarTestS, SecondTestButton, StopTestS);
                 }
                 );
                 
@@ -192,7 +192,7 @@ namespace Example_Try
                 //run thread
                 Task.Run(() =>
                 {
-                    TestThirdStart(project);
+                    TestStart(project, progressBarTestT, ThirdTestButton, StopTestT);
                 }
                 );
 
@@ -253,7 +253,7 @@ namespace Example_Try
         }
 
 
-        /*********************************************First TEST*********************************************/
+        /********************************************* TEST *********************************************/
         private void ChangeStatusFirst()
         {
             lock (lockObjectFirstTest)
@@ -266,90 +266,6 @@ namespace Example_Try
             updateDelegateFirstTest(StopButtonFirstTest);
         }
 
-        private async void TestFirstStart(ProjectClass project)
-        {
-            Stopwatch timer = new Stopwatch();
-
-            timer.Start();
-
-            bool Error = false;
-
-            int time = randomData.RandomTestTime();
-
-            int Persent = 0;
-
-            bool checkState = checkBox.Checked;
-
-
-            while (timer.Elapsed.TotalSeconds < time)
-            {
-                await Task.Delay(30);
-                if (Persent >= 100)
-                {
-                    Persent = 100;
-                }
-                else
-                {
-                    Persent = Convert.ToInt32(timer.Elapsed.TotalSeconds / time * 100);
-
-                }
-                ChangeStatus("Test 1 " + db.ListStatus[1] + $" {Persent}%", 1);
-                UpdateBar(progressBarTestF, Persent);
-                if (checkState) 
-                { 
-                    if (!StopButtonFirstTest)
-                    {
-
-                        if (!Error)
-                        {
-
-                            //cheker
-                            project = ErrorCheck(project);
-                            //set error
-                            if (project.error)
-                                Error = true;
-                        }
-                    
-                    }
-                    else
-                    {
-                        Persent = 100;
-                        string text = "Первый Тест остановлен";
-                        ChangeStatus("Test 1 " + db.ListStatus[2], 1);
-                        UpdateBar(progressBarTestF, Persent);
-                        CallWarning(text, "Warning Test");
-                        break;
-                    }
-                }
-            }
-
-            if (!StopButtonFirstTest)
-            {
-                if (Error)
-                {
-                    CallErrorTest(project, 1);
-                }
-                else
-                {
-                    ChangeStatus("Test 1 " + db.ListStatus[3], 1);
-                    //call save
-                    string text = "Успех первого теста.";
-                    CallInfo(text, project);
-
-                }
-            }
-            //clear
-            ChangeStatus("", 1);
-            buttonStatus(FirstTestButton, true);
-            buttonStatus(StopTestF, false);
-            UpdateBar(progressBarTestF, 0);
-            UpdateBarChangeColor(progressBarTestF, Color.Green);
-            StopButtonFirstTest = false;
-        }
-
-
-
-        /*********************************************Second TEST*********************************************/
 
         private void ChangeStatusSecond()
         {
@@ -364,89 +280,6 @@ namespace Example_Try
         }
 
 
-        private async void TestSecondStart(ProjectClass project)
-        {
-            Stopwatch timer = new Stopwatch();
-
-            timer.Start();
-
-            bool Error = false;
-
-            int time = randomData.RandomTestTime();
-
-            int Persent = 0;
-
-            bool checkState = checkBox.Checked;
-
-            while (timer.Elapsed.TotalSeconds < time)
-            {
-                await Task.Delay(30);
-                if (Persent >= 100)
-                {
-                    Persent = 100;
-                }
-                else
-                {
-                    Persent = Convert.ToInt32(timer.Elapsed.TotalSeconds / time * 100);
-
-                }
-                ChangeStatus("Test 2 " + db.ListStatus[1] + $" {Persent}%", 2);
-                UpdateBar(progressBarTestS, Persent);
-                if (checkState) 
-                {
-                    if (!StopButtonSecondTest)
-                    {
-
-                        if (!Error)
-                        {
-
-                            //cheker
-                            project = ErrorCheck(project);
-
-                            //set error
-                            if (project.error)
-                                Error = true;
-                        }
-
-                    }
-                    else
-                    {
-                        Persent = 100;
-                        string text = "Второй Тест остановлен";
-                        ChangeStatus("Test 2 " + db.ListStatus[2], 2);
-                        UpdateBar(progressBarTestS, Persent);
-                        CallWarning(text, "Warning Test");
-                        break;
-                    }
-                }
-            }
-
-            if (!StopButtonFirstTest)
-            {
-                if (Error)
-                {
-                    CallErrorTest(project, 2);
-                }
-                else
-                {
-                    ChangeStatus("Test 2 " + db.ListStatus[3], 2);
-                    //call save
-                    string text = "Успех второго теста.";
-                    CallInfo(text, project);
-                }
-            }
-            //clear
-            ChangeStatus("", 2);
-            buttonStatus(SecondTestButton, true);
-            buttonStatus(StopTestS, false);
-            UpdateBar(progressBarTestS, 0);
-            UpdateBarChangeColor(progressBarTestS, Color.Green);
-            StopButtonSecondTest = false;
-        }
-
-
-        /*********************************************Third TEST*********************************************/
-
         private void ChangeStatusThird()
         {
             lock (lockObjectThirdTest)
@@ -460,7 +293,7 @@ namespace Example_Try
         }
 
 
-        private async void TestThirdStart(ProjectClass project)
+        private async void TestStart(ProjectClass project, ProgressBar bar, Button buttonTest, Button buttonStop)
         {
             Stopwatch timer = new Stopwatch();
 
@@ -474,9 +307,27 @@ namespace Example_Try
 
             bool checkState = checkBox.Checked;
 
+            int SpecialMsgFlag = ((int)project.type);
+
+            bool StopTask = false;
 
             while (timer.Elapsed.TotalSeconds < time)
             {
+
+                switch (project.type) 
+                {
+                    case TypeTest.test1:
+                        StopTask = StopButtonFirstTest;
+                        break;
+                    case TypeTest.test2:
+                        StopTask = StopButtonSecondTest;
+                        break;
+                    case TypeTest.test3:
+                        StopTask = StopButtonThirdTest;
+                        break;
+
+                };
+
                 await Task.Delay(30);
                 if (Persent >= 100)
                 {
@@ -487,66 +338,82 @@ namespace Example_Try
                     Persent = Convert.ToInt32(timer.Elapsed.TotalSeconds / time * 100);
 
                 }
-                ChangeStatus("Test 3 " + db.ListStatus[1] + $" {Persent}%", 3);
-                UpdateBar(progressBarTestT, Persent);
-
-                if (checkState)
+                ChangeStatus($"Test {SpecialMsgFlag} " + db.ListStatus[1] + $" {Persent}%", SpecialMsgFlag);
+                UpdateBar(bar, Persent);
+                 
+                if (!StopTask)
                 {
-                    if (!StopButtonThirdTest)
+                    if (checkState)
                     {
-
                         if (!Error)
                         {
 
                             //cheker
                             project = ErrorCheck(project);
-
                             //set error
                             if (project.error)
                                 Error = true;
                         }
-
                     }
-                    else
-                    {
-                        Persent = 100;
-                        string text = "Третий Тест остановлен";
-                        ChangeStatus("Test 3 " + db.ListStatus[2], 3);
-                        UpdateBar(progressBarTestT, Persent);
-                        CallWarning(text, "Warning Test");
-                        break;
-                    }
-                }
-            }
-
-            if (!StopButtonFirstTest)
-            {
-                if (Error)
-                {
-                    CallErrorTest(project, 3);
                 }
                 else
                 {
-                    ChangeStatus("Test 3 " + db.ListStatus[3], 3);
+                    Persent = 100;
+                    string text = "Тест остановлен";
+                    ChangeStatus($"Test {SpecialMsgFlag} " + db.ListStatus[2], SpecialMsgFlag);
+                    UpdateBar(bar, Persent);
+                    CallWarning(text, "Warning Test");
+                    break;
+                }
+                
+            }
+
+            if (!StopTask)
+            {
+                if (Error)
+                {
+                    CallErrorTest(project, SpecialMsgFlag);
+                }
+                else
+                {
+                    ChangeStatus($"Test {SpecialMsgFlag} " + db.ListStatus[3], SpecialMsgFlag);
                     //call save
-                    string text = "Успех третьего теста.";
+                    string text = $"Успех {SpecialMsgFlag}-го теста.";
                     CallInfo(text, project);
+
                 }
             }
             //clear
-            ChangeStatus("" , 3);
-            buttonStatus(ThirdTestButton, true);
-            buttonStatus(StopTestT, false);
-            UpdateBar(progressBarTestT, 0);
-            UpdateBarChangeColor(progressBarTestT, Color.Green);
-            StopButtonThirdTest = false;
+            ChangeStatus("", SpecialMsgFlag);
+            buttonStatus(buttonTest, true);
+            buttonStatus(buttonStop, false);
+            UpdateBar(bar, 0);
+            UpdateBarChangeColor(bar, Color.Green);
+            updateState(project.type);
         }
-
 
         /********************************************* general *********************************************/
 
+        private void updateState(TypeTest typeTest) 
+        {
+            switch (typeTest)
+            {
+                case TypeTest.test1:
+                    ChangeStatusFirst();
+                    break;
+                case TypeTest.test2:
+                    ChangeStatusSecond();
+                    break;
+                case TypeTest.test3:
+                    ChangeStatusThird();
+                    break;
+
+            };
+
+        }
 
 
+        #region Invoke call in Task async
         private void UpdateBar(ProgressBar bar, int Value)
         {
             Invoke((MethodInvoker)delegate
@@ -566,6 +433,22 @@ namespace Example_Try
 
         }
 
+        private void buttonStatus(Button button, bool status)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                button.Enabled = status;
+            });
+        }
+        #endregion
+
+
+        #region Check Error 
+        /// <summary>
+        /// Check Error
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns>Changed project</returns>
         private ProjectClass ErrorCheck(ProjectClass project) 
         {
             ExProject error = CheckerGeneral(project);
@@ -583,6 +466,11 @@ namespace Example_Try
 
         }
 
+        /// <summary>
+        /// Check project data with random data.
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         private ExProject CheckerGeneral(ProjectClass project)
         {
 
@@ -636,63 +524,11 @@ namespace Example_Try
             return new ExProject(); ;
         }
 
-
-       
-
-        private string SetErrorMessage(ProjectClass project)
-        {
-            string erorrs_collect = "";
-            
-            switch (project.typeerror)
-            {
-                case TypeError.code_error:
-                    erorrs_collect = $"CODE_ERROR";
-                    break;
-                case TypeError.id_error:
-                    erorrs_collect = $"ID_ERROR";
-                    break;
-                case TypeError.byte_error:
-                    erorrs_collect = $"BYTE_ERROR";
-                    break;
-                case TypeError.connect_error:
-                    erorrs_collect = "CONNECT_ERROR";
-                    break;
-                case TypeError.data_error:
-                    erorrs_collect = "DATA_ERROR";
-                    break;
-                case TypeError.speed_error:
-                    erorrs_collect = "SPEED_ERROR";
-                    break;
-                case TypeError.none:
-                    break;
-            }
-            
-            return erorrs_collect + "->" + project.exProject.data;
-
-        }
+        #endregion
 
 
-        // Empty Data CAll
 
-        private void CallEmptyData() 
-        {
-            string Text = "Введите идентификатор изделия";
-            CallWarning(Text, "Отсутствуют данные");
-        }
-
-        // error call in thread 
-
-        private void CallErrorTest(ProjectClass project, int index) 
-        {
-            // call ERROR MESSAGE
-            string error = SetErrorMessage(project);
-
-            string text = $"Ошибка {index}-го теста {error}. Сохранить результат теста?";
-            ChangeStatus($"Test {index} " + db.ListStatus[4] + error, index);
-            CallError(text, project);
-        }
-
-        // Call MSBox
+        #region Call MSBox
         private void CallInfo(string Text, ProjectClass project)
         {
             MessageBox.Show(Text, "Info Test", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
@@ -715,6 +551,8 @@ namespace Example_Try
             }
 
         }
+        #endregion
+
 
         private void ChangeStatus(string text, int flag)
         {
@@ -743,6 +581,66 @@ namespace Example_Try
             }
             
 
+        }
+
+
+
+        /// <summary>
+        /// Set Spesial code for user.
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
+        private string SetErrorMessage(ProjectClass project)
+        {
+            string erorrs_collect = "";
+
+            switch (project.typeerror)
+            {
+                case TypeError.code_error:
+                    erorrs_collect = $"CODE_ERROR";
+                    break;
+                case TypeError.id_error:
+                    erorrs_collect = $"ID_ERROR";
+                    break;
+                case TypeError.byte_error:
+                    erorrs_collect = $"BYTE_ERROR";
+                    break;
+                case TypeError.connect_error:
+                    erorrs_collect = "CONNECT_ERROR";
+                    break;
+                case TypeError.data_error:
+                    erorrs_collect = "DATA_ERROR";
+                    break;
+                case TypeError.speed_error:
+                    erorrs_collect = "SPEED_ERROR";
+                    break;
+                case TypeError.none:
+                    break;
+            }
+
+            return erorrs_collect + "->" + project.exProject.data;
+
+        }
+
+
+        // Empty Data CAll
+
+        private void CallEmptyData()
+        {
+            string Text = "Введите идентификатор изделия";
+            CallWarning(Text, "Отсутствуют данные");
+        }
+
+        // error call in thread 
+
+        private void CallErrorTest(ProjectClass project, int index)
+        {
+            // call ERROR MESSAGE
+            string error = SetErrorMessage(project);
+
+            string text = $"Ошибка {index}-го теста {error}. Сохранить результат теста?";
+            ChangeStatus($"Test {index} " + db.ListStatus[4] + error, index);
+            CallError(text, project);
         }
 
 
@@ -781,16 +679,6 @@ namespace Example_Try
             
             }
         }
-
-
-        private void buttonStatus(Button button, bool status) 
-        {
-            Invoke((MethodInvoker)delegate
-            {
-                button.Enabled = status;                
-            });
-        }
-
 
         private void folderMenuItem()
         {

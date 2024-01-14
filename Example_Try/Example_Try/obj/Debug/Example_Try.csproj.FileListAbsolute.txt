@@ -16,7 +16,6 @@ C:\Users\chang\Desktop\git\Test_example\Example_Try\Example_Try\bin\Debug\Exampl
 C:\Users\chang\Desktop\git\Test_example\Example_Try\Example_Try\bin\Debug\Example_Try.pdb
 C:\Users\chang\Desktop\git\Test_example\Example_Try\Example_Try\bin\Debug\Newtonsoft.Json.dll
 C:\Users\chang\Desktop\git\Test_example\Example_Try\Example_Try\bin\Debug\Newtonsoft.Json.xml
-C:\Users\chang\Desktop\git\Test_example\Example_Try\Example_Try\obj\Debug\Example_Try.csproj.AssemblyReference.cache
 C:\Users\chang\Desktop\git\Test_example\Example_Try\Example_Try\obj\Debug\Example_Try.Form1.resources
 C:\Users\chang\Desktop\git\Test_example\Example_Try\Example_Try\obj\Debug\Example_Try.Properties.Resources.resources
 C:\Users\chang\Desktop\git\Test_example\Example_Try\Example_Try\obj\Debug\Example_Try.csproj.GenerateResource.cache

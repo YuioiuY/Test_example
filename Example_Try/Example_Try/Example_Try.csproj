@@ -89,9 +89,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Results\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="image_sourse\stop.png" />
   </ItemGroup>
